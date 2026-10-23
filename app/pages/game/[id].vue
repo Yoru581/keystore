@@ -1,5 +1,9 @@
 <script setup lang="ts">
 
+const route = useRoute()
+const gameId = route.params.id
+
+const { data: currentGame } = await useFetch(`/api/games/${gameId}`)
 </script>
 
 <template>
@@ -11,7 +15,7 @@
             <div class="col-span-6">
                 <div class="flex flex-col gap-6">
                     <div class="flex flex-col gap-6 ">
-                        <h1 class="text-3xl font-semibold">TITLE</h1>
+                        <h1 class="text-3xl font-semibold">{{ currentGame?.title }}</h1>
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-4">
                                 <div class="flex items-center gap-1">
@@ -22,7 +26,7 @@
                                 <div class="border-r border-white h-4"></div>
 
                                 <div class="">
-                                    <span>4920 продаж</span>
+                                    <span>{{ currentGame?.salesCount }} продаж</span>
                                 </div>
 
                                 <div class="border-r border-white h-4"></div>
@@ -39,16 +43,14 @@
                     </div>
                     <div class="mt-8">
                         <h2 class="text-xl font-semibold">О товаре</h2>
-                        <p class="mt-4">Какое-то описание</p>
+                        <p class="mt-4">{{ currentGame?.description }}</p>
                     </div>
                 </div>
             </div>
             <div class="col-span-4">
                 <div class=" bg-zinc-900 border-zinc-800 border rounded-xl p-4">
                     <div class="flex flex-col gap-2">
-                        <span class="text-3xl font-bold">749 ₽</span>
-                        <span class="font-bold">ShopStore</span>
-                        <span class="text-sm text-slate-300">174K продаж</span>
+                        <span class="text-3xl font-bold">{{ currentGame?.price }} ₽</span>
                         <NuxtLink to="/buy" class="w-full py-4 text-center text-md bg-rose-600 rounded-xl mt-4">Купить
                         </NuxtLink>
                     </div>

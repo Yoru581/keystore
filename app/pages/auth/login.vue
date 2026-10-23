@@ -3,14 +3,28 @@ import { ref } from 'vue';
 
 const email = ref('')
 const password = ref('')
+const error = ref('')
+
 const handleLogin = async () => {
-    console.log('Отправка данных на вход:', { email: email.value, password: password.value })
+    error.value = ''
+
+    try {
+        const response = await $fetch('/api/auth/login', {
+            method: "POST",
+            body: {
+                email: email.value, password: password.value
+            }
+        })
+    } catch (err: any) {
+        error.value = err.data?.statusMessage || 'Ошибка'
+    }
 }
+
 </script>
 
 <template>
     <div class="flex items-center justify-center mt-24">
-        <form action="handleLogin" class="p-6 bg-zinc-900 w-full max-w-sm border border-zinc-800 rounded-xl">
+        <form @submit.prevent="handleLogin" class="p-6 bg-zinc-900 w-full max-w-sm border border-zinc-800 rounded-xl">
             <div class="text-center">
                 <h1 class="text-xl font-semibold">Вход в аккаунт</h1>
             </div>
